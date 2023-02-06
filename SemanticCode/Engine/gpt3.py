@@ -1,6 +1,7 @@
 import requests
 import json
 import argparse
+from SCCompiler.SemanticCode.PreCompile.pc import PreCompiler
 parser = argparse.ArgumentParser()
 parser.add_argument("file")
 args = parser.parse_args()
@@ -13,11 +14,12 @@ file = args.file
 model = "code-davinci-002"
 with open(file) as f:
     data = f.read()
-code = precompile(data)
+pre = PreCompiler(data)
+code = pre.precompile()
 # Define the headers for the API request
 headers = {
     "Content-Type": "application/json",
-    "Authorization": "Bearer " + api_key
+    "Authorization": "Bearer " + pre.api
 }
 
 # Define the request body
